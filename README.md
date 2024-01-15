@@ -42,3 +42,7 @@ pip install uvicorn
 ```bash
 python3 app.py
 ```
+
+### Open the docs:
+
+http://127.0.0.1:8000/docs
