@@ -1,4 +1,4 @@
-FROM tiangolo/uvicorn-gunicorn-fastapi:python3.11
+FROM tiangolo/uvicorn-gunicorn-fastapi:python3.9
 
 # Copy the requirements.txt first to leverage Docker cache
 COPY ./OpenVoice/requirements.txt /app/
