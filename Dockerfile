@@ -1,7 +1,11 @@
 FROM tiangolo/uvicorn-gunicorn-fastapi:python3.11
 
-COPY ./OpenVoice/requirements.txt /app/requirements.txt
+# Copy the requirements.txt first to leverage Docker cache
+COPY ./OpenVoice/requirements.txt /app/
 
-RUN pip install --no-cache-dir --upgrade -r /OpenVoice/requirements.txt
+# Upgrade pip and install requirements
+RUN pip install --upgrade pip && \
+    pip install -r /app/requirements.txt
 
+# Copy the rest of the application
 COPY ./OpenVoice /app
