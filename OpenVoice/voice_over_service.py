@@ -39,7 +39,7 @@ def get_reference_speaker_from_folder():
     return local_file_path
 
 
-async def create_custom_voice_over(text, speaker, reference_speaker):
+async def create_custom_voice_over(text, speaker, reference_speaker, language):
     ckpt_base = 'checkpoints/base_speakers/EN'
     ckpt_converter = 'checkpoints/converter'
     device="cuda:0" if torch.cuda.is_available() else "cpu"
@@ -67,7 +67,7 @@ async def create_custom_voice_over(text, speaker, reference_speaker):
 
     # Run the base speaker tts
     src_path = f'{output_dir}/tmp.wav'
-    base_speaker_tts.tts(text, src_path, speaker=speaker, language='English', speed=0.9)
+    base_speaker_tts.tts(text, src_path, speaker=speaker, language=language, speed=0.9)
 
     # Run the tone color converter
     encode_message = "@MyShell"

@@ -23,9 +23,9 @@ async def read_root():
 
 
 @app.post("/api/v1/voice-over/")
-async def voice_over_endpoint(query: str, speaker: str, reference_speaker: str):
+async def voice_over_endpoint(query: str, speaker: str, reference_speaker: str, language: str):
     try:
-        file_path = await create_custom_voice_over(text=query, speaker=speaker, reference_speaker=reference_speaker)
+        file_path = await create_custom_voice_over(text=query, speaker=speaker, reference_speaker=reference_speaker, language=language)
         return {"file_path": file_path}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
