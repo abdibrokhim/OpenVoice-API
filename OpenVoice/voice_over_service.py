@@ -28,17 +28,6 @@ def download_reference_speaker(url):
         print(f'Failed to download the file. Status code: {response.status_code}')
         return None
 
-
-def get_reference_speaker_from_folder():
-    # Local directory where the file will be saved
-    local_dir = 'phonks'
-    os.makedirs(local_dir, exist_ok=True)
-
-    # Local file path
-    local_file_path = os.path.join(local_dir, '1.wav')
-    return local_file_path
-
-
 async def create_custom_voice_over(text, speaker, reference_speaker, language):
     ckpt_base = 'checkpoints/base_speakers/EN'
     ckpt_converter = 'checkpoints/converter'
@@ -55,11 +44,6 @@ async def create_custom_voice_over(text, speaker, reference_speaker, language):
 
     source_se = torch.load(f'{ckpt_base}/en_default_se.pth').to(device)
 
-    # Download the reference speaker
-    # ref_speaker = download_reference_speaker(reference_speaker)
-    ref_speaker = get_reference_speaker_from_folder()
-
-    reference_speaker = ref_speaker
     target_se, audio_name = se_extractor.get_se(reference_speaker, tone_color_converter, target_dir='processed', vad=True)
     
     source_se = torch.load(f'{ckpt_base}/en_style_se.pth').to(device)

@@ -23,11 +23,25 @@ async def read_root():
 
 
 @app.post("/api/v1/voice-over/")
-async def voice_over_endpoint(query: str, speaker: str, reference_speaker: str, language: str):
+async def voice_over_endpoint(query: str, speaker: str, language: str, reference_speaker: UploadFile = File(...)):
     try:
-        file_path = await create_custom_voice_over(text=query, speaker=speaker, reference_speaker=reference_speaker, language=language)
+        # Save the file to a temporary file
+        with NamedTemporaryFile(delete=False, suffix=os.path.splitext(reference_speaker.filename)[1]) as temp_file:
+            contents = await reference_speaker.read()
+            temp_file.write(contents)
+            temp_file_path = temp_file.name
+
+        # Transcribe the file
+        file_path = await create_custom_voice_over(text=query, speaker=speaker, reference_speaker=temp_file_path, language=language)
+        
+        # Optionally, delete the file after processing
+        os.remove(temp_file_path)
+
         return {"file_path": file_path}
-    except Exception as e:
+    except Exception as e:        
+        # Cleanup if an error occurs
+        if os.path.exists(temp_file_path):
+            os.remove(temp_file_path)
         raise HTTPException(status_code=500, detail=str(e))
 
 
