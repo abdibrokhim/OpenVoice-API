@@ -45,27 +45,27 @@ async def voice_over_endpoint(query: str, speaker: str, language: str, reference
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@app.post("/api/v1/transcribe/")
-async def transcribe_endpoint(file: UploadFile = File(...)):
-    try:
-        # Save the file to a temporary file
-        with NamedTemporaryFile(delete=False, suffix=os.path.splitext(file.filename)[1]) as temp_file:
-            contents = await file.read()
-            temp_file.write(contents)
-            temp_file_path = temp_file.name
+# @app.post("/api/v1/transcribe/")
+# async def transcribe_endpoint(file: UploadFile = File(...)):
+#     try:
+#         # Save the file to a temporary file
+#         with NamedTemporaryFile(delete=False, suffix=os.path.splitext(file.filename)[1]) as temp_file:
+#             contents = await file.read()
+#             temp_file.write(contents)
+#             temp_file_path = temp_file.name
 
-        # Transcribe the file
-        content = await whisper(temp_file_path)
+#         # Transcribe the file
+#         content = await whisper(temp_file_path)
 
-        # Optionally, delete the file after processing
-        os.remove(temp_file_path)
+#         # Optionally, delete the file after processing
+#         os.remove(temp_file_path)
 
-        return {"content": content}
-    except Exception as e:
-        # Cleanup if an error occurs
-        if os.path.exists(temp_file_path):
-            os.remove(temp_file_path)
-        raise HTTPException(status_code=500, detail=str(e)) 
+#         return {"content": content}
+#     except Exception as e:
+#         # Cleanup if an error occurs
+#         if os.path.exists(temp_file_path):
+#             os.remove(temp_file_path)
+#         raise HTTPException(status_code=500, detail=str(e)) 
 
-if __name__ == "__main__":
-    uvicorn.run(app, port=8000)
+# if __name__ == "__main__":
+#     uvicorn.run(app, port=8000)
