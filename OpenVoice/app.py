@@ -3,7 +3,7 @@ from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 from voice_over_service import create_custom_voice_over
-from whisper_api import whisper
+# from whisper_api import whisper
 from tempfile import NamedTemporaryFile
 import os
 
