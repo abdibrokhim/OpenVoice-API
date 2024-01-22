@@ -67,5 +67,5 @@ async def voice_over_endpoint(query: str, speaker: str, language: str, reference
 #             os.remove(temp_file_path)
 #         raise HTTPException(status_code=500, detail=str(e)) 
 
-# if __name__ == "__main__":
-#     uvicorn.run(app, port=8000)
+if __name__ == "__main__":
+    uvicorn.run(app, port=8000)
